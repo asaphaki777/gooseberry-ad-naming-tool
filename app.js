@@ -97,8 +97,20 @@ function addCard(container, data={}) {
 function invalidate() {
   names=[]; $('output-heading').textContent='AD NAMES WILL SHOW UP HERE'; $('results').replaceChildren(); $('copy-all').hidden=true; $('empty').hidden=false; $('status').replaceChildren(); $('error').textContent='';
 }
-async function copy(text) {
-  try { await navigator.clipboard.writeText(text); $('status').textContent='Copied.'; }
+const copyTimers = new WeakMap();
+async function copy(text, button) {
+  try {
+    await navigator.clipboard.writeText(text);
+    $('status').textContent='Copied.';
+    if(button) {
+      clearTimeout(copyTimers.get(button));
+      if(!button.dataset.originalText) button.dataset.originalText=button.textContent;
+      button.textContent='Copied!'; button.classList.add('copied');
+      copyTimers.set(button,setTimeout(()=>{
+        button.textContent=button.dataset.originalText; button.classList.remove('copied'); copyTimers.delete(button);
+      },2000));
+    }
+  }
   catch { const area=document.createElement('textarea'); area.value=text; area.setAttribute('aria-label','Names to copy'); $('status').replaceChildren(document.createTextNode('Select and copy:'),area); area.focus(); area.select(); }
 }
 
@@ -119,15 +131,15 @@ $('form').onsubmit=event=>{
     const heading=document.createElement('h3'); heading.textContent=`AD-${String(i+1).padStart(2,'0')}`; section.append(heading);
     group.forEach((name,j)=>{
       const row=document.createElement('div'); row.className='result';
-      const format=document.createElement('span'); format.className='format'; format.textContent=['4x5','1x1','9x16'][j];
+      const format=document.createElement('span'); format.className='format'; format.textContent=['1x1','4x5','9x16'][j];
       const code=document.createElement('code'); code.textContent=name;
-      const button=document.createElement('button'); button.type='button'; button.textContent='Copy'; button.setAttribute('aria-label',`Copy AD-${String(i+1).padStart(2,'0')} ${format.textContent}`); button.onclick=()=>copy(name);
+      const button=document.createElement('button'); button.type='button'; button.textContent='Copy'; button.setAttribute('aria-label',`Copy AD-${String(i+1).padStart(2,'0')} ${format.textContent}`); button.onclick=()=>copy(name,button);
       row.append(format,code,button); section.append(row);
     }); $('results').append(section);
   });
   $('empty').hidden=true; $('copy-all').hidden=false; $('status').textContent=`${names.length} names generated.`;
 };
-$('copy-all').onclick=()=>copy(names.join('\n'));
+$('copy-all').onclick=()=>copy(names.join('\n'),$('copy-all'));
 
 
 function addLocks(card) {

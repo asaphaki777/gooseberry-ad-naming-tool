@@ -19,5 +19,5 @@ function buildNames(f) {
   };
   const parts = ['GSB' , f.date.slice(2).replaceAll('-',''), resolve('stage'), resolve('concept'), f.mixed ? 'Mixed Collections' : f.collection, f.mixed ? 'Mixed Set' : f.set ? 'Set' : f.product, f.quality];
   if (!f.noHandle) parts.push(handle);
-  return ['4x5','1x1','9x16'].map(d => [...parts,d,`v${Number(f.version)}`].join('_'));
+  return ['1x1','4x5','9x16'].map(d => [...parts,d,`v${Number(f.version)}`].join('_'));
 }
