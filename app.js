@@ -84,6 +84,12 @@ function addCard(container, data={}) {
   if(container.id==='batch-entries') addLocks(card);
   field(card,'date').closest('.lock-field').classList.add('wide');
   field(card,'quality').closest('.lock-field').classList.add('wide');
+  for(const key of ['stage','concept']) {
+    const hint=document.createElement('p'); hint.className='field-hint'; hint.id=`${field(card,key).id}-hint`;
+    hint.textContent=`Select custom to input a different ${key}.`;
+    field(card,key).setAttribute('aria-describedby',hint.id);
+    field(card,key).closest('.lock-field').append(hint);
+  }
   collection.closest('.lock-field').append(collectionOptions);
   product.closest('.lock-field').append(productOptions);
   syncCard(card); renumber(); return card;
