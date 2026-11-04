@@ -46,7 +46,7 @@ Official GitHub guide: https://docs.github.com/en/pages/getting-started-with-git
 - Handles have outer whitespace and one leading @ removed. Letters, numbers, dots and underscores are allowed. Internal underscores are preserved; a handle containing underscores therefore cannot be unambiguously parsed by splitting the whole name on underscores alone.
 - Version is a whole number from 1 through 999999, prefixed with v. Leading zeros are normalized.
 - Changing inputs clears generated names to prevent copying stale results.
-- Nothing is sent to a server or saved between visits. No tracking or runtime libraries. Libre Caslon Condensed Italic loads from Google Fonts; headings fall back to Georgia when offline.
+- Ad entries are not sent to a server or saved between visits. The interface is dark only (#1e1e1e). No tracking or runtime libraries. Headings use Helvetica/Arial with system fallbacks; no external fonts are loaded.
 
 ## Files
 
@@ -56,17 +56,16 @@ Official GitHub guide: https://docs.github.com/en/pages/getting-started-with-git
 - naming.js — naming rules and validation
 - app.js — Single/Batch forms, duplication and copy behavior
 
-## Single and Batch modes
+## Entries, locks and custom values
 
-- Use the switch beside the title to select Single or Batch.
-- **Single:** each entry has its own date, stage, concept, quality, collection, product, handle and version.
-- **Batch:** date, stage, concept and quality are entered once under Constant Values. Collection, product, handle and version belong to each entry.
-- **ADD ANOTHER** copies the last entry including its current selections, so you only need to change what differs. In Batch mode it does not duplicate Constant Values.
-- Mixed Collections, Set and No Handle are available per entry.
-- Remove deletes an entry; at least one entry remains in each mode.
-- The modes retain separate entries while you switch. Refreshing or closing the page clears all entries.
-- Every entry generates 4x5, 1x1 and 9x16, grouped by ad. Copy All includes every generated name on a separate line.
+All entries use one form. Lock any field to share its current value across existing and new entries. Unlock to edit each entry independently. ADD ANOTHER copies the last entry; locked fields stay fixed, unlocked fields can be changed. Product locks also lock Collection; unlocking Collection unlocks Product. Related Mixed Collections, Set and No Handle checkboxes follow their field locks.
+
+Stage and Concept include Custom. Select it and enter your own text; spaces and punctuation are preserved, except underscores and line breaks are disallowed to protect field separators. Custom text can also be locked.
 
 ## Verification
 
-Browser-checked Single duplication with independent concepts, Batch duplication with different products and shared campaign values, six names for two entries, Mixed Set capitalization, preserved punctuation, No Handle omission, successful Copy All feedback and entries retained across mode switches. Desktop layout visually checked. Responsive CSS is included; mobile was not separately browser-tested.
+Browser-checked unified form, Custom Stage and Concept output, locked custom Stage carried into AD-02, and six generated names for two entries. Earlier checks covered per-entry concepts, shared locks, copy behavior and exact catalog options.
+
+## Appearance
+
+Dark-gray and white rounded interface with the supplied Gooseberry logo. Upload gooseberry-logo.png alongside index.html, styles.css, app.js, naming.js and catalog.js. Entry labels use AD-01, AD-02, and so on. Empty results show “AD NAMES WILL SHOW UP HERE”; generated results show “AD NAMES”.
